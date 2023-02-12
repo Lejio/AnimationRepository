@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QPushButton, QCheckBox, QWidget
 from PySide6.QtCore import QRect, Property, QPropertyAnimation, QEasingCurve, Qt, QPoint, QEvent, QObject
-from PySide6.QtGui import QPainter, QPaintEvent, QColor, QMouseEvent, QHoverEvent
+from PySide6.QtGui import QPainter, QPaintEvent, QColor, QMouseEvent, QHoverEvent, QEnterEvent
 
 class testWidget(QWidget):
     
@@ -23,6 +23,7 @@ class testWidget(QWidget):
         # This here sets up the animation
         self.anim = QPropertyAnimation(self, b"changewidth")
         self.anim.setDuration(500)
+        self.anim.setStartValue(width)
         self.anim.setEasingCurve(self.setCurve)
         self.setMouseTracking(True)
         
@@ -37,21 +38,56 @@ class testWidget(QWidget):
     # choose to detect certain events and do actions with them.
     # Every event filter comes with 3 parameters: self, watched and event.
     ###############################################################################################
-    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+    # def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         
-        # For this widget, if the object passing the event is itself, and the type is mouse
-        # entering itself, set the end value to max and run expanding animation.
-        if ((watched == self) and (event.type() == QEvent.Type().Enter)):
+    #     # For this widget, if the object passing the event is itself, and the type is mouse
+    #     # entering itself, set the end value to max and run expanding animation.
+    #     if ((watched == self) and (event.type() == QEvent.Type().Enter)):
+    #         self.anim.setEndValue(self.maxSize)
+    #         self.anim.start()
+            
+    #     # If the event thrown is itself, and the even is leaving the widget, minimize.
+    #     elif ((watched == self) and (event.type() == QEvent.Type().Leave)):
+    #         self.anim.setEndValue(self.minimumSize)
+    #         self.anim.start()
+        
+    #     # The event filter must return the following:
+    #     return super().eventFilter(watched, event)
+    
+    ###############################################################################################
+    # Update: I just found out about the QPushButtons built in enter and leave event. This is
+    # essentially what the filter event is doing. I think these two are the same. (The app is
+    # still running and checking each event).
+    ###############################################################################################
+    def enterEvent(self, e: QEnterEvent) -> None:
+        print("Entered")
+        
+        # The direction is pretty cool. It would reverse the start and ending values automatically.
+        # One annoying thing is that it the easing curve would be reversed too.
+        self.anim.setDirection(self.anim.Direction.Forward)
+        # State. Detects if the animation is running (boolean). This if not running, run animation.
+        # The animation would run fine without this statement. However, it would be really wonky.
+        if self.anim.state() == self.anim.State.Stopped:
+            
+            # Fixing curve type after reversing.
+            self.anim.setEasingCurve(QEasingCurve.Type.OutBounce)
+            
+            # You only really need to set the End Value once. And I put it in the enterEvent so
+            # in case the leave Event fires off first, it would not mess up the animation.
             self.anim.setEndValue(self.maxSize)
             self.anim.start()
-            
-        # If the event thrown is itself, and the even is leaving the widget, minimize.
-        elif ((watched == self) and (event.type() == QEvent.Type().Leave)):
-            self.anim.setEndValue(self.minimumSize)
-            self.anim.start()
+        return super().enterEvent(e)
         
-        # The event filter must return the following:
-        return super().eventFilter(watched, event)
+    def leaveEvent(self, e: QEvent) -> None:
+        
+        # Setting the animation to go backwards.
+        self.anim.setDirection(self.anim.Direction.Backward)
+        print("Left")
+        if self.anim.state() == self.anim.State.Stopped:
+            # self.anim.setEndValue(self.minimumSize)
+            self.anim.setEasingCurve(QEasingCurve.Type.InBounce)
+            self.anim.start()
+        return super().leaveEvent(e)
         
     
     ###############################################################################################

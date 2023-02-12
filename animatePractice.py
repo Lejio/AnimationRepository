@@ -1,10 +1,10 @@
-from PySide6.QtWidgets import QPushButton, QWidget, QMainWindow, QHBoxLayout
-from PySide6.QtCore import QPropertyAnimation
-from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QPushButton, QMainWindow, QHBoxLayout
+from testButtonShade import buttonShade
 from animateWidget import animateWidget
 from testCheckBox import testCheckBox
 from testButton import testButton
 from testWidget import testWidget
+from testButtonColor import buttonColor
 
 class animate(QMainWindow):
     
@@ -35,15 +35,9 @@ class animate(QMainWindow):
         b = testButton()
         c = QPushButton("Hello")
         d = testWidget(height=500)
-        # b = QPushButton("Bruh")
-        # b.setStyleSheet("""
-        #                 background-color: green;
-        #                 """)
-        # anim = QPropertyAnimation(b, b"geometry")
-        # anim.setStartValue(100)
-        # anim.setEndValue(200)
-        # anim.setDuration(2500)
-        # anim.start()
+        e = buttonShade("Test")
+        f = buttonColor("Bruh")
+   
         
         self.boxlayout.addWidget(a)
         self.boxlayout.addWidget(b)
@@ -52,24 +46,5 @@ class animate(QMainWindow):
         
         self.setLayout(self.boxlayout)
         
-        # color_names = QColor.colorNames()
-        
-        # QColor("gold")
-        # QColor("cyan")
-        
-        
-        
-        # for item in color_names:
-            
-        #     print(str(item))
-        
-        # print(QColor.colorNames)
-        # self.anim = QPropertyAnimation(a, b'color')
-        # self.anim.setStartValue(0)
-        # self.anim.setEndValue(255)
-        # self.anim.setDuration(2500)
-        # self.anim.start()
-        
-        
-        self.setCentralWidget(d)
+        self.setCentralWidget(f)
         
