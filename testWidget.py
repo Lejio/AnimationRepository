@@ -31,10 +31,17 @@ class testWidget(QWidget):
         
         # self.event(hover)     
         # print(hover.pos())
+        
+    
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         
-        if watched == self:
-            print("WTF")
+        if ((watched == self) and (event.type() == QEvent.Type().Enter)):
+            self.anim.setEndValue(self.maxSize)
+            self.anim.start()
+            
+        elif ((watched == self) and (event.type() == QEvent.Type().Leave)):
+            self.anim.setEndValue(self.minimumSize)
+            self.anim.start()
         
         return super().eventFilter(watched, event)
         
@@ -60,10 +67,10 @@ class testWidget(QWidget):
         self.anim.setEndValue(self.minimumSize)
         self.anim.start()
         
-    def mouseMoveEvent(self, e):
+    # def mouseMoveEvent(self, e):
         
-        self.anim.setEndValue(self.maxSize)
-        self.anim.start()
+    #     self.anim.setEndValue(self.maxSize)
+    #     self.anim.start()
         # self.anim.setEndValue(self.minimumSize)
 
     
