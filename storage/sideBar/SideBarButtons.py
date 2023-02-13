@@ -5,11 +5,15 @@ from sideBar.Style import Style
 
 class SideBarButton(QPushButton):
     
-    def __init__(self, 
+    def __init__(self,
+                 text = "", 
                  curve = QEasingCurve.Type.Linear,
                  startColor: QColor = QColor("gray"),
                  endColor: QColor = QColor("snow"),
                  borderColor: QColor = QColor("gray"),
+                 endBorderColor: QColor = QColor("gray"),
+                 startTextColor: QColor = QColor("black"),
+                 endTextColor: QColor = QColor("black"),
                  style = Style,
                  height = 28,
                  width = 60,
@@ -17,7 +21,12 @@ class SideBarButton(QPushButton):
         
         super(SideBarButton, self).__init__()
 
+        self.setText(text)
         self.borderColor = borderColor
+        self.endBorderColor = endBorderColor
+        self.startTextColor = startTextColor
+        self.endTextColor = endTextColor
+        
         self.colorStart = startColor
         self.Style = style
 
@@ -31,7 +40,7 @@ class SideBarButton(QPushButton):
         
         self.setStyleSheet(self.Style(self.colorStart))
         
-        self.animColor = QPropertyAnimation(self, b"color")
+        self.animColor = QPropertyAnimation(self, b"bgcolor")
         self.animColor.setEasingCurve(self.curve)
 
         self.animColor.setDuration(self.duration)
@@ -62,13 +71,34 @@ class SideBarButton(QPushButton):
         
     
     @Property(QColor)
-    def color(self):
+    def bgcolor(self):
         
         return self.colorStart
     
-    @color.setter
-    def color(self, c):
+    @bgcolor.setter
+    def bgcolor(self, c):
         
         self.colorStart = c
         self.setStyleSheet(self.Style(c))
         
+    @Property(QColor)
+    def bordercolor(self):
+        
+        return self.borderColor
+    
+    @bordercolor.setter
+    def bordercolor(self, c):
+        
+        self.borderColor = c
+        # Somehow change bordercolor
+        
+    @Property(QColor)
+    def textcolor(self):
+        
+        return self.startTextColor
+    
+    @textcolor.setter
+    def textcolor(self, c):
+        
+        self.startTextColor = c
+        # Change text color

@@ -24,7 +24,14 @@ class MainWindow(QMainWindow):
         # self.mainlayout2.addWidget(SideBarButton())
         startColor = QColor(194, 187, 240)
         endColor = QColor(98, 191, 237)
-        self.mainlayout1.addWidget(SideBarButton(startColor=startColor, endColor=endColor, style=Style))
+        button = SideBarButton(startColor=startColor,
+                                                 endColor=endColor,
+                                                 style=Style,
+                                                 text="Test")
+        self.mainlayout1.addWidget(button)
+        
+        print(button.text())
+        
         
         self.bufferWidget.setLayout(self.mainlayout1)
         

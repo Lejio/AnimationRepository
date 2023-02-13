@@ -19,6 +19,7 @@ def Style(c: QColor):
     return f"""
 border: 3px solid rgba(143, 184, 237, 255);
 border-radius: 3px;
+color: black;
 background-color: rgba({c.red()}, {c.green()}, {c.blue()}, {c.alpha()});
 """
 
