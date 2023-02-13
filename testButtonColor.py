@@ -28,7 +28,7 @@ class buttonColor(QPushButton):
         self.colorAnim = QPropertyAnimation(self.colorEffect, b"color")
         # self.colorAnim.setStartValue(0)
         
-        self.colorAnim.setDuration(1000)
+        self.colorAnim.setDuration(200)
         
     def enterEvent(self, event: QEnterEvent) -> None:
         print("Entered")
@@ -38,7 +38,7 @@ class buttonColor(QPushButton):
             
             # Since we are animating QColor here, the start and end values would be in QColors as well.
             self.colorAnim.setStartValue(QColor("lime"))
-            self.colorAnim.setEndValue(QColor("gray"))
+            self.colorAnim.setEndValue(QColor("red"))
             self.colorAnim.start()
             
         return super().enterEvent(event)
