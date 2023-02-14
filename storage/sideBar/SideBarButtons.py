@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QPushButton, QGraphicsColorizeEffect
+from PySide6.QtWidgets import QPushButton
 from PySide6.QtGui import QEnterEvent, QColor
-from PySide6.QtCore import QEvent, QPropertyAnimation, Property, QEasingCurve
+from PySide6.QtCore import QEvent, QPropertyAnimation, Property, QEasingCurve,  QParallelAnimationGroup
 from sideBar.Style import Style
 
 class SideBarButton(QPushButton):
